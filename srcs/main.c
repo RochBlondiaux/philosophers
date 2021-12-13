@@ -22,6 +22,12 @@ int	main(int argc, char **argv)
 	create_philosophers(&app);
 	if (!app.philosophers)
 		return (EXIT_FAILURE);
+	if (!app.forks)
+	{
+		if (app.philosophers)
+			clear_philosophers(&app);
+		return (EXIT_FAILURE);
+	}
 	bring_them_to_life(app);
 	clear_philosophers(&app);
 	return (EXIT_SUCCESS);

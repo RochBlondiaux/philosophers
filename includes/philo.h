@@ -6,7 +6,7 @@
 /*   By: rblondia <rblondia@student.42-lyon.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 13:23:44 by rblondia          #+#    #+#             */
-/*   Updated: 2021/12/13 18:51:40 by rblondia         ###   ########.fr       */
+/*   Updated: 2021/12/13 19:35:31 by rblondia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,40 +56,44 @@ typedef struct s_philosopher
 {
 	int					index;
 	t_philosopher_state	state;
+	long long			last_meal;
+	long long			last_nap;
+	t_settings			settings;
 	pthread_t			thread;
 }		t_philosopher;
 
 typedef struct s_app
 {
 	t_settings		settings;
+	pthread_mutex_t	**forks;
 	t_philosopher	**philosophers;
 }					t_app;
 
 /**
  * Parsing
  */
-void	parse_settings(t_settings *settings, int argc, char **argv);
-int		validate_settings(t_settings settings);
+void		parse_settings(t_settings *settings, int argc, char **argv);
+int			validate_settings(t_settings settings);
 
 /**
  * Philosophers
  */
-void	create_philosophers(t_app *app);
-void	clear_philosophers(t_app *app);
-int		is_state(t_philosopher *philosopher, t_philosopher_state state);
-void	set_state(t_philosopher *philosopher, t_philosopher_state state);
-void	*live(void *philosopher);
-void	bring_them_to_life(t_app app);
+void		create_philosophers(t_app *app);
+void		clear_philosophers(t_app *app);
+int			is_state(t_philosopher *philosopher, t_philosopher_state state);
+useconds_t	set_state(t_philosopher *philosopher, t_philosopher_state state);
+void		*live(void *philosopher);
+void		bring_them_to_life(t_app app);
 
 /**
  * Threads
  */
-int		validate_thread(int code);
+int			validate_thread(int code);
 
 /**
  * Utils
  */
-int		is_number(char *a);
-int		ft_atoi(char *str);
+int			is_number(char *a);
+int			ft_atoi(char *str);
 
 #endif

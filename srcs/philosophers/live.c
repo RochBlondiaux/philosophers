@@ -6,7 +6,7 @@
 /*   By: rblondia <rblondia@student.42-lyon.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 18:49:10 by rblondia          #+#    #+#             */
-/*   Updated: 2021/12/13 18:53:03 by rblondia         ###   ########.fr       */
+/*   Updated: 2021/12/13 19:39:03 by rblondia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	bring_them_to_life(t_app app)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
 	while (app.philosophers[i])
@@ -29,6 +29,9 @@ void	*live(void *arg)
 	t_philosopher	*philosopher;
 
 	philosopher = (t_philosopher *) arg;
-	set_state(philosopher, EATING);
-	pthread_exit(EXIT_SUCCESS);
+	while (1)
+	{
+		usleep(set_state(philosopher, EATING));
+	}
+	return (NULL);
 }
