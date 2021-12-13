@@ -6,7 +6,7 @@
 /*   By: rblondia <rblondia@student.42-lyon.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 13:23:44 by rblondia          #+#    #+#             */
-/*   Updated: 2021/12/13 17:08:44 by rblondia         ###   ########.fr       */
+/*   Updated: 2021/12/13 17:36:05 by rblondia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 # include <string.h>
 # include <sys/time.h>
 # include <pthread.h>
+# include <stdlib.h>
+# include <errno.h>
 
 /**
  * Structures
@@ -47,6 +49,11 @@ typedef struct s_app
  */
 void	parse_settings(t_settings *settings, int argc, char **argv);
 int		validate_settings(t_settings settings);
+
+/**
+ * Threads
+ */
+int		validate_thread(int code);
 
 /**
  * Utils

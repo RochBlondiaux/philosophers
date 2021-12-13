@@ -1,23 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   thread_validator.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rblondia <rblondia@student.42-lyon.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/13 13:25:21 by rblondia          #+#    #+#             */
-/*   Updated: 2021/12/13 17:19:51 by rblondia         ###   ########.fr       */
+/*   Created: 2021/12/13 17:29:16 by rblondia          #+#    #+#             */
+/*   Updated: 2021/12/13 17:34:51 by rblondia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philo.h"
+#include "../../includes/philo.h"
 
-int	main(int argc, char **argv)
+int	validate_thread(int code)
 {
-	t_app	app;
-
-	parse_settings(&app.settings, argc, argv);
-	if (!validate_settings(app.settings))
-		return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
+	if (code == 0)
+		return (1);
+	else if (code == EAGAIN)
+		printf(EAGAIN_MSG);
+	else if (code == EINVAL)
+		printf(EINVAL_MSG);
+	else if (code == EPERM)
+		printf(EPERM_MSG);
+	return (0);
 }

@@ -28,6 +28,7 @@ INCDIR = includes
 # Name
 SRC_NAME =	main.c \
 			parsing/parse.c \
+			threads/thread_validator.c \
 			utils/parsing_utils.c
 
 OBJ_NAME = $(SRC_NAME:.c=.o)
@@ -45,12 +46,13 @@ all: obj $(NAME)
 obj:
 	@echo "$(INFO)Creating objects folder... $(NOC)"
 	@mkdir -p $(OBJ_PATH)
+	@mkdir -p $(OBJ_PATH)/threads
 	@mkdir -p $(OBJ_PATH)/parsing
 	@mkdir -p $(OBJ_PATH)/utils
 	@echo "$(SUCCESS)Objects folder created successfully$(NOC)"
 
 $(OBJ_PATH)%.o:$(SRC_PATH)%.c
-	@$(CC) $(CFLAGS) -I $(INCDIR) -o $@ -c $<
+	@$(CC) -I $(INCDIR) -o $@ -c $<
 
 $(NAME): $(OBJ)
 	@echo "$(INFO)Building $(NAME)...$(NOC)"
