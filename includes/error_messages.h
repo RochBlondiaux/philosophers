@@ -6,7 +6,7 @@
 /*   By: rblondia <rblondia@student.42-lyon.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 16:47:35 by rblondia          #+#    #+#             */
-/*   Updated: 2021/12/13 17:33:06 by rblondia         ###   ########.fr       */
+/*   Updated: 2021/12/13 17:43:04 by rblondia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 /**
  * Parsing errors
  */
-# define USAGE "Usage: ./philo <count> <die> <eat> <sleep> [number_of_times_each_philosopher_must_eat]"
+# define USAGE "Usage:./philo <count> <die> <eat> <sleep> [times_each_must_eat]"
 # define MISSING_ARGUMENTS_MSG "Missing arguments!"
 # define TOO_MANY_ARGUMENTS_MSG "Too many arguments!"
 # define WRONG_ARGUMENT_TYPE_MSG "Wrong argument type!"

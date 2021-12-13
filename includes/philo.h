@@ -6,7 +6,7 @@
 /*   By: rblondia <rblondia@student.42-lyon.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 13:23:44 by rblondia          #+#    #+#             */
-/*   Updated: 2021/12/13 17:36:05 by rblondia         ###   ########.fr       */
+/*   Updated: 2021/12/13 18:01:35 by rblondia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,16 @@
 # include <errno.h>
 
 /**
+ * Enumerations
+ */
+typedef enum e_philosopher_state
+{
+	EATING,
+	SLEEPING,
+	THINKING
+}	t_philosopher_state;
+
+/**
  * Structures
  */
 typedef struct s_settings
@@ -39,26 +49,42 @@ typedef struct s_settings
 	int		return_code;
 }			t_settings;
 
+typedef struct s_philosopher
+{
+	int					index;
+	t_philosopher_state	state;
+
+}		t_philosopher;
+
 typedef struct s_app
 {
-	t_settings	settings;
-}				t_app;
+	t_settings		settings;
+	t_philosopher	**philosophers;
+}					t_app;
 
 /**
  * Parsing
  */
-void	parse_settings(t_settings *settings, int argc, char **argv);
-int		validate_settings(t_settings settings);
+void			parse_settings(t_settings *settings, int argc, char **argv);
+int				validate_settings(t_settings settings);
+
+/**
+ * Philosophers
+ */
+void			create_philosophers(t_app *app);
+void			clear_philosophers(t_app *app);
+int				is_state(t_philosopher *philosopher, t_philosopher_state state);
+void			set_state(t_philosopher *philosopher, t_philosopher_state state);
 
 /**
  * Threads
  */
-int		validate_thread(int code);
+int				validate_thread(int code);
 
 /**
  * Utils
  */
-int		is_number(char *a);
-int		ft_atoi(char *str);
+int				is_number(char *a);
+int				ft_atoi(char *str);
 
 #endif

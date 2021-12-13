@@ -1,27 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   clear.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rblondia <rblondia@student.42-lyon.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/13 13:25:21 by rblondia          #+#    #+#             */
-/*   Updated: 2021/12/13 18:02:47 by rblondia         ###   ########.fr       */
+/*   Created: 2021/12/13 17:54:01 by rblondia          #+#    #+#             */
+/*   Updated: 2021/12/13 17:56:29 by rblondia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philo.h"
+#include "../../includes/philo.h"
 
-int	main(int argc, char **argv)
+void	clear_philosophers(t_app *app)
 {
-	t_app	app;
+	size_t	i;
 
-	parse_settings(&app.settings, argc, argv);
-	if (!validate_settings(app.settings))
-		return (EXIT_FAILURE);
-	create_philosophers(&app);
-	if (!app.philosophers)
-		return (EXIT_FAILURE);
-	clear_philosophers(&app);
-	return (EXIT_SUCCESS);
+	if (!app || !app->philosophers)
+		return ;
+	i = 0;
+	while (app->philosophers[i])
+	{
+		free(app->philosophers[i]);
+		i++;
+	}
+	free(app->philosophers);
 }

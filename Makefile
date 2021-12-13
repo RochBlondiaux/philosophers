@@ -29,6 +29,9 @@ INCDIR = includes
 SRC_NAME =	main.c \
 			parsing/parse.c \
 			threads/thread_validator.c \
+			philosophers/new.c \
+			philosophers/clear.c \
+			philosophers/state.c \
 			utils/parsing_utils.c
 
 OBJ_NAME = $(SRC_NAME:.c=.o)
@@ -46,6 +49,7 @@ all: obj $(NAME)
 obj:
 	@echo "$(INFO)Creating objects folder... $(NOC)"
 	@mkdir -p $(OBJ_PATH)
+	@mkdir -p $(OBJ_PATH)/philosophers
 	@mkdir -p $(OBJ_PATH)/threads
 	@mkdir -p $(OBJ_PATH)/parsing
 	@mkdir -p $(OBJ_PATH)/utils
