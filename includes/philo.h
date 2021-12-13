@@ -6,7 +6,7 @@
 /*   By: rblondia <rblondia@student.42-lyon.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 13:23:44 by rblondia          #+#    #+#             */
-/*   Updated: 2021/12/13 18:12:54 by rblondia         ###   ########.fr       */
+/*   Updated: 2021/12/13 18:51:40 by rblondia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,13 @@ typedef struct s_philosopher
 {
 	int					index;
 	t_philosopher_state	state;
+	pthread_t			thread;
 }		t_philosopher;
 
 typedef struct s_app
 {
 	t_settings		settings;
 	t_philosopher	**philosophers;
-	struct timeval	start_time;
 }					t_app;
 
 /**
@@ -77,7 +77,9 @@ int		validate_settings(t_settings settings);
 void	create_philosophers(t_app *app);
 void	clear_philosophers(t_app *app);
 int		is_state(t_philosopher *philosopher, t_philosopher_state state);
-void	set_state(t_app app, t_philosopher *philosopher, t_philosopher_state state);
+void	set_state(t_philosopher *philosopher, t_philosopher_state state);
+void	*live(void *philosopher);
+void	bring_them_to_life(t_app app);
 
 /**
  * Threads

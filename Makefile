@@ -32,6 +32,7 @@ SRC_NAME =	main.c \
 			philosophers/new.c \
 			philosophers/clear.c \
 			philosophers/state.c \
+			philosophers/live.c \
 			utils/parsing_utils.c
 
 OBJ_NAME = $(SRC_NAME:.c=.o)

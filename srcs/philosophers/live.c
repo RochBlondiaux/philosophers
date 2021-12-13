@@ -1,28 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   live.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rblondia <rblondia@student.42-lyon.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/13 13:25:21 by rblondia          #+#    #+#             */
-/*   Updated: 2021/12/13 18:44:24 by rblondia         ###   ########.fr       */
+/*   Created: 2021/12/13 18:49:10 by rblondia          #+#    #+#             */
+/*   Updated: 2021/12/13 18:53:03 by rblondia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philo.h"
+#include "../../includes/philo.h"
 
-int	main(int argc, char **argv)
+void	bring_them_to_life(t_app app)
 {
-	t_app	app;
+	int	i;
 
-	parse_settings(&app.settings, argc, argv);
-	if (!validate_settings(app.settings))
-		return (EXIT_FAILURE);
-	create_philosophers(&app);
-	if (!app.philosophers)
-		return (EXIT_FAILURE);
-	bring_them_to_life(app);
-	clear_philosophers(&app);
-	return (EXIT_SUCCESS);
+	i = 0;
+	while (app.philosophers[i])
+	{
+		pthread_join(app.philosophers[i]->thread, NULL);
+		i++;
+	}
+}
+
+void	*live(void *arg)
+{
+	t_philosopher	*philosopher;
+
+	philosopher = (t_philosopher *) arg;
+	set_state(philosopher, EATING);
+	pthread_exit(EXIT_SUCCESS);
 }

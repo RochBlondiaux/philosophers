@@ -6,7 +6,7 @@
 /*   By: rblondia <rblondia@student.42-lyon.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 17:45:35 by rblondia          #+#    #+#             */
-/*   Updated: 2021/12/13 18:01:58 by rblondia         ###   ########.fr       */
+/*   Updated: 2021/12/13 18:48:07 by rblondia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,16 @@
 t_philosopher	*create_philosopher(int index)
 {
 	t_philosopher	*philosopher;
+	int				result;
 
 	philosopher = malloc(sizeof (t_philosopher));
 	if (!philosopher)
 		return (NULL);
 	philosopher->index = index;
 	philosopher->state = THINKING;
+	result = pthread_create(&philosopher->thread, NULL, &live, philosopher);
+	if (!validate_thread(result))
+		return (NULL);
 	return (philosopher);
 }
 
