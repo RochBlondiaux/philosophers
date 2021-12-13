@@ -1,28 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   messages.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rblondia <rblondia@student.42-lyon.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/13 13:25:21 by rblondia          #+#    #+#             */
-/*   Updated: 2021/12/13 18:18:43 by rblondia         ###   ########.fr       */
+/*   Created: 2021/12/13 18:13:16 by rblondia          #+#    #+#             */
+/*   Updated: 2021/12/13 18:18:32 by rblondia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philo.h"
+#ifndef MESSAGES_H
+# define MESSAGES_H
 
-int	main(int argc, char **argv)
-{
-	t_app	app;
+# define FORK_MSG "%d %d has taken a fork\n"
+# define EATING_MSG "%d %d is eating\n"
+# define SLEEPING_MSG "%d %d is sleeping\n"
+# define THINKING_MSG "%d %d is thinking\n"
+# define DIED_MSG "%d %d died\n"
 
-	gettimeofday(&app.start_time, NULL);
-	parse_settings(&app.settings, argc, argv);
-	if (!validate_settings(app.settings))
-		return (EXIT_FAILURE);
-	create_philosophers(&app);
-	if (!app.philosophers)
-		return (EXIT_FAILURE);
-	clear_philosophers(&app);
-	return (EXIT_SUCCESS);
-}
+#endif
