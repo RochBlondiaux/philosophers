@@ -6,7 +6,7 @@
 /*   By: rblondia <rblondia@student.42-lyon.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 13:23:44 by rblondia          #+#    #+#             */
-/*   Updated: 2021/12/13 19:35:31 by rblondia         ###   ########.fr       */
+/*   Updated: 2021/12/14 16:10:44 by rblondia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,16 @@ typedef struct s_settings
 
 typedef struct s_philosopher
 {
-	int					index;
-	t_philosopher_state	state;
-	long long			last_meal;
-	long long			last_nap;
-	t_settings			settings;
-	pthread_t			thread;
-}		t_philosopher;
+	int						index;
+	t_philosopher_state		state;
+	long long				last_meal;
+	long long				last_nap;
+	t_settings				settings;
+	struct s_philosopher	*previous;
+	int						right_fork;
+	int						left_fork;
+	pthread_t				thread;
+}							t_philosopher;
 
 typedef struct s_app
 {
@@ -84,6 +87,7 @@ int			is_state(t_philosopher *philosopher, t_philosopher_state state);
 useconds_t	set_state(t_philosopher *philosopher, t_philosopher_state state);
 void		*live(void *philosopher);
 void		bring_them_to_life(t_app app);
+int			is_anybody_dead(t_philosopher *philosopher);
 
 /**
  * Threads

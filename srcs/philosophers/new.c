@@ -6,7 +6,7 @@
 /*   By: rblondia <rblondia@student.42-lyon.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 17:45:35 by rblondia          #+#    #+#             */
-/*   Updated: 2021/12/13 19:59:08 by rblondia         ###   ########.fr       */
+/*   Updated: 2021/12/14 19:08:13 by rblondia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 static t_philosopher	*create_philosopher(t_app *app, int index)
 {
 	t_philosopher	*philosopher;
-	int				result;
 
 	philosopher = malloc(sizeof (t_philosopher));
 	if (!philosopher)
@@ -23,9 +22,6 @@ static t_philosopher	*create_philosopher(t_app *app, int index)
 	philosopher->index = index;
 	philosopher->state = THINKING;
 	philosopher->settings = app->settings;
-	result = pthread_create(&philosopher->thread, NULL, &live, philosopher);
-	if (!validate_thread(result))
-		return (NULL);
 	return (philosopher);
 }
 
@@ -50,6 +46,31 @@ static void	create_forks(t_app *app)
 		i++;
 	}
 	app->forks[i] = NULL;
+}
+
+static void	set_previous(t_app *app)
+{
+	size_t	i;
+	int		result;
+
+	i = 1;
+	app->philosophers[0]->previous
+		= app->philosophers[app->settings.philosophers - 1];
+	while (i < app->settings.philosophers)
+	{
+		app->philosophers[i]->previous = app->philosophers[i - 1];
+		i++;
+	}
+	set_state(app->philosophers[0]->previous, EATING);
+	i = 0;
+	while (i < app->settings.philosophers)
+	{
+		result = pthread_create(&(app->philosophers[i])->thread,
+				NULL, &live, app->philosophers[i]);
+		if (!validate_thread(result))
+			break ;
+		i++;
+	}
 }
 
 void	create_philosophers(t_app *app)
@@ -78,4 +99,5 @@ void	create_philosophers(t_app *app)
 		i++;
 	}
 	app->philosophers[i - 1] = NULL;
+	set_previous(app);
 }

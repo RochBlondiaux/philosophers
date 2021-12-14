@@ -6,13 +6,28 @@
 /*   By: rblondia <rblondia@student.42-lyon.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 17:45:19 by rblondia          #+#    #+#             */
-/*   Updated: 2021/12/13 19:40:00 by rblondia         ###   ########.fr       */
+/*   Updated: 2021/12/14 17:20:14 by rblondia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/philo.h"
 
-static useconds_t	get_waiting_time(t_philosopher *philosopher, t_philosopher_state state)
+int	is_anybody_dead(t_philosopher *philosopher)
+{
+	t_philosopher	*tmp;
+
+	tmp = philosopher->previous;
+	while (tmp && tmp->index != philosopher->index)
+	{
+		if (is_state(tmp, DEAD))
+			return (1);
+		tmp = philosopher->previous;
+	}
+	return (0);
+}
+
+static useconds_t	get_waiting_time(t_philosopher *philosopher,
+							t_philosopher_state state)
 {
 	t_settings	settings;
 	useconds_t	time;

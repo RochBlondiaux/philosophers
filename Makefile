@@ -33,6 +33,7 @@ SRC_NAME =	main.c \
 			philosophers/clear.c \
 			philosophers/state.c \
 			philosophers/live.c \
+			philosophers/fork.c \
 			utils/parsing_utils.c
 
 OBJ_NAME = $(SRC_NAME:.c=.o)
@@ -43,7 +44,7 @@ OBJ = $(addprefix $(OBJ_PATH), $(OBJ_NAME))
 
 # Flags
 CC = gcc $(CFLAGS)
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -pthread
 
 all: obj $(NAME)
 
