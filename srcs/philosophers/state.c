@@ -6,7 +6,7 @@
 /*   By: rblondia <rblondia@student.42-lyon.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 17:45:19 by rblondia          #+#    #+#             */
-/*   Updated: 2021/12/14 17:20:14 by rblondia         ###   ########.fr       */
+/*   Updated: 2021/12/15 11:29:13 by rblondia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	is_anybody_dead(t_philosopher *philosopher)
 	{
 		if (is_state(tmp, DEAD))
 			return (1);
-		tmp = philosopher->previous;
+		tmp = tmp->previous;
 	}
 	return (0);
 }
@@ -45,7 +45,6 @@ static useconds_t	get_waiting_time(t_philosopher *philosopher,
 useconds_t	set_state(t_philosopher *philosopher, t_philosopher_state state)
 {
 	char			*format;
-	struct timeval	time;
 
 	if (philosopher->state == state)
 		return (0);
@@ -60,8 +59,7 @@ useconds_t	set_state(t_philosopher *philosopher, t_philosopher_state state)
 		format = DIED_MSG;
 	else if (state == TAKING_FORK)
 		format = FORK_MSG;
-	gettimeofday(&time, NULL);
-	printf(format, time.tv_usec, philosopher->index);
+	printf(format, get_time(), philosopher->index);
 	return (get_waiting_time(philosopher, state));
 }
 

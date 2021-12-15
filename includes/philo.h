@@ -99,5 +99,6 @@ int			validate_thread(int code);
  */
 int			is_number(char *a);
 int			ft_atoi(char *str);
+long long	get_time(void);
 
 #endif
