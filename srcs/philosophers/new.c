@@ -6,7 +6,7 @@
 /*   By: rblondia <rblondia@student.42-lyon.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 17:45:35 by rblondia          #+#    #+#             */
-/*   Updated: 2021/12/15 11:27:26 by rblondia         ###   ########.fr       */
+/*   Updated: 2021/12/15 11:49:51 by rblondia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ static t_philosopher	*create_philosopher(t_app *app, int index)
 	philosopher->index = index;
 	philosopher->state = THINKING;
 	philosopher->settings = app->settings;
+	philosopher->app = app;
+	philosopher->meals = 0;
 	return (philosopher);
 }
 

@@ -6,7 +6,7 @@
 /*   By: rblondia <rblondia@student.42-lyon.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 18:49:10 by rblondia          #+#    #+#             */
-/*   Updated: 2021/12/15 11:33:48 by rblondia         ###   ########.fr       */
+/*   Updated: 2021/12/15 11:38:35 by rblondia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ void	*live(void *arg)
 	while (!is_anybody_dead(philosopher))
 	{
 		if (is_state(philosopher->previous, EATING))
-			usleep(set_state(philosopher, SLEEPING));
+			set_state(philosopher, SLEEPING);
 		else if (is_state(philosopher->previous, SLEEPING))
-			usleep(set_state(philosopher, EATING));
+			set_state(philosopher, EATING);
 	}
 	return (NULL);
 }

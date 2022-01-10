@@ -6,7 +6,7 @@
 /*   By: rblondia <rblondia@student.42-lyon.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 17:54:01 by rblondia          #+#    #+#             */
-/*   Updated: 2021/12/13 19:52:01 by rblondia         ###   ########.fr       */
+/*   Updated: 2021/12/15 12:07:24 by rblondia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void	clear_philosophers(t_app *app)
 		while (app->forks[i])
 		{
 			pthread_mutex_destroy(app->forks[i]);
-			free(app->forks[i]);
 			i++;
 		}
 		free(app->forks);

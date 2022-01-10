@@ -6,7 +6,7 @@
 /*   By: rblondia <rblondia@student.42-lyon.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 17:45:19 by rblondia          #+#    #+#             */
-/*   Updated: 2021/12/15 11:29:13 by rblondia         ###   ########.fr       */
+/*   Updated: 2021/12/15 12:00:25 by rblondia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	is_anybody_dead(t_philosopher *philosopher)
 	return (0);
 }
 
-static useconds_t	get_waiting_time(t_philosopher *philosopher,
+useconds_t	get_waiting_time(t_philosopher *philosopher,
 							t_philosopher_state state)
 {
 	t_settings	settings;
@@ -42,17 +42,23 @@ static useconds_t	get_waiting_time(t_philosopher *philosopher,
 	return (time * 1000);
 }
 
-useconds_t	set_state(t_philosopher *philosopher, t_philosopher_state state)
+void	set_state(t_philosopher *philosopher, t_philosopher_state state)
 {
 	char			*format;
 
 	if (philosopher->state == state)
-		return (0);
+		return ;
 	philosopher->state = state;
 	if (state == EATING)
+	{
+		philosopher->last_meal = get_time();
 		format = EATING_MSG;
+	}
 	else if (state == SLEEPING)
+	{
+		philosopher->last_nap = get_time();
 		format = SLEEPING_MSG;
+	}
 	else if (state == THINKING)
 		format = THINKING_MSG;
 	else if (state == DEAD)
@@ -60,7 +66,6 @@ useconds_t	set_state(t_philosopher *philosopher, t_philosopher_state state)
 	else if (state == TAKING_FORK)
 		format = FORK_MSG;
 	printf(format, get_time(), philosopher->index);
-	return (get_waiting_time(philosopher, state));
 }
 
 int	is_state(t_philosopher *philosopher, t_philosopher_state state)
