@@ -6,7 +6,7 @@
 /*   By: rblondia <rblondia@student.42-lyon.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 13:23:44 by rblondia          #+#    #+#             */
-/*   Updated: 2021/12/15 11:56:32 by rblondia         ###   ########.fr       */
+/*   Updated: 2022/01/19 16:03:13 by rblondia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,10 @@ typedef struct s_philosopher
 {
 	int						index;
 	t_philosopher_state		state;
+	long long				limit;
 	long long				last_meal;
 	long long				last_nap;
 	t_settings				settings;
-	struct s_philosopher	*previous;
 	struct s_app			*app;
 	int						right_fork;
 	int						left_fork;
@@ -72,6 +72,7 @@ typedef struct s_app
 	t_settings		settings;
 	pthread_mutex_t	**forks;
 	t_philosopher	**philosophers;
+	int 			running;
 }					t_app;
 
 /**
@@ -88,12 +89,10 @@ void		clear_philosophers(t_app *app);
 int			is_state(t_philosopher *philosopher, t_philosopher_state state);
 void		set_state(t_philosopher *philosopher, t_philosopher_state state);
 void		*live(void *philosopher);
-void		bring_them_to_life(t_app app);
-int			is_anybody_dead(t_philosopher *philosopher);
-int			eat(t_philosopher *philosopher);
-int			get_available_forks(t_app *app);
-int			is_fork_available(t_app *app, int id);
-int			get_fork(t_app *app);
+
+/* Fork */
+void 		take_forks(t_philosopher *philosopher);
+void 		clear_forks(t_philosopher *philosopher);
 
 /**
  * Threads
@@ -108,5 +107,9 @@ int			ft_atoi(char *str);
 long long	get_time(void);
 useconds_t	get_waiting_time(t_philosopher *philosopher,
 				t_philosopher_state state);
+int 		should_be_dead(t_philosopher *philosopher);
+void		foreach(t_app *app, void (*f)(t_app *app, t_philosopher *philosopher));
+void		start(t_app *app);
+void 		init(t_philosopher *philosopher);
 
 #endif
