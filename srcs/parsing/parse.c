@@ -27,15 +27,15 @@ int	validate_settings(t_settings settings)
 
 static void	set_setting(t_settings *settings, int key, int value)
 {
-	if (key == 0)
+	if (key == 1)
 		settings->philosophers = value;
-	else if (key == 1)
-		settings->time_to_die = value;
 	else if (key == 2)
-		settings->time_to_eat = value;
+		settings->time_to_die = value;
 	else if (key == 3)
-		settings->time_to_sleep = value;
+		settings->time_to_eat = value;
 	else if (key == 4)
+		settings->time_to_sleep = value;
+	else if (key == 5)
 		settings->must_eat_time = value;
 }
 
@@ -57,11 +57,11 @@ void	parse_settings(t_settings *settings, int argc, char **argv)
 				settings->return_code = WRONG_ARGUMENT_TYPE;
 				return ;
 			}
-			set_setting(settings, i - 1, ft_atoi(argv[i]));
+			set_setting(settings, i, ft_atoi(argv[i]));
 			i++;
 		}
-		if (i < 5)
-			set_setting(settings, 4, -1);
+		if (i < 6)
+			set_setting(settings, 5, -1);
 		settings->return_code = 0;
 	}
 }

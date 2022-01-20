@@ -23,7 +23,12 @@ static t_philosopher	*create_philosopher(t_app *app, int index)
 	philosopher->state = THINKING;
 	philosopher->settings = app->settings;
 	philosopher->app = app;
-	philosopher->meals = 0;
+	philosopher->limit = 0;
+	philosopher->state = THINKING;
+	philosopher->eat_mutex = malloc(sizeof (pthread_mutex_t));
+	if (!philosopher->eat_mutex)
+		return (NULL);
+	pthread_mutex_init(philosopher->eat_mutex, NULL);
 	return (philosopher);
 }
 
@@ -68,8 +73,8 @@ void	start(t_app *app)
 			clear_philosophers(app);
 			return ;
 		}
-		if (i % 2 == 0)
-			usleep(100);
+		if (i % 2 == 1)
+			usleep(10);
 		i++;
 	}
 }

@@ -48,7 +48,7 @@ typedef struct s_settings
 	size_t	time_to_die;
 	size_t	time_to_eat;
 	size_t	time_to_sleep;
-	size_t	must_eat_time;
+	int		must_eat_time;
 	int		return_code;
 }			t_settings;
 
@@ -57,14 +57,13 @@ typedef struct s_philosopher
 	int						index;
 	t_philosopher_state		state;
 	long long				limit;
-	long long				last_meal;
-	long long				last_nap;
 	t_settings				settings;
 	struct s_app			*app;
 	int						right_fork;
 	int						left_fork;
-	int						meals;
 	pthread_t				thread;
+	pthread_t				monitor_thread;
+	pthread_mutex_t			*eat_mutex;
 }							t_philosopher;
 
 typedef struct s_app
@@ -111,5 +110,7 @@ int 		should_be_dead(t_philosopher *philosopher);
 void		foreach(t_app *app, void (*f)(t_app *app, t_philosopher *philosopher));
 void		start(t_app *app);
 void 		init(t_philosopher *philosopher);
+int 		is_somebody_dead(t_philosopher *philosopher);
+void 		*eat_monitor(void *arg);
 
 #endif

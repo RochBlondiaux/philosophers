@@ -27,9 +27,25 @@ int should_be_dead(t_philosopher *philosopher)
 
 void foreach(t_app *app, void (*f)(t_app *app, t_philosopher *philosopher))
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	while (app->philosophers[i]) {
 		f(app, app->philosophers[i]);
 		i++;
 	}
+}
+
+int is_somebody_dead(t_philosopher *philosopher) {
+	int		i;
+	t_app	*app;
+
+	i = 0;
+	app = philosopher->app;
+	while (app->philosophers[i]) {
+		if (is_state(app->philosophers[i], DEAD))
+			return (1);
+		i++;
+	}
+	return (0);
 }

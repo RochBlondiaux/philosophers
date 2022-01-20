@@ -23,6 +23,7 @@ void	clear_philosophers(t_app *app)
 	{
 		while (app->philosophers[i])
 		{
+			pthread_mutex_destroy(app->philosophers[i]->eat_mutex);
 			free(app->philosophers[i]);
 			i++;
 		}

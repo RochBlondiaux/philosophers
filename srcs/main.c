@@ -23,12 +23,21 @@ void init(t_philosopher *philosopher)
 	int id;
 
 	id = philosopher->index;
-	philosopher->last_meal = get_time();
-	philosopher->last_nap = get_time();
 	philosopher->limit = get_time() + (philosopher->settings.time_to_die);
 	philosopher->left_fork = id - 1;
 	philosopher->right_fork = (id) % philosopher->settings.philosophers;
-	philosopher->meals = 0;
+	pthread_mutex_lock(philosopher->eat_mutex);
+}
+
+static int launch_eat_monitor_thread(t_app *app) {
+	pthread_t	tid;
+
+	if (app->settings.must_eat_time == -1)
+		return (1);
+	if (pthread_create(&tid, NULL, eat_monitor, app) != 0)
+		return (0);
+	pthread_detach(tid);
+	return (1);
 }
 
 int main(int argc, char **argv)
@@ -47,6 +56,10 @@ int main(int argc, char **argv)
 		return (EXIT_FAILURE);
 	}
 	start(&app);
+	if (!launch_eat_monitor_thread(&app)) {
+		clear_philosophers(&app);
+		return (EXIT_FAILURE);
+	}
 	app.running = 1;
 	while (app.running) {
 		foreach(&app, &check);
