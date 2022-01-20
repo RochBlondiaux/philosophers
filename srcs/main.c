@@ -26,6 +26,8 @@ void init(t_philosopher *philosopher)
 	philosopher->limit = get_time() + (philosopher->settings.time_to_die);
 	philosopher->left_fork = id - 1;
 	philosopher->right_fork = (id) % philosopher->settings.philosophers;
+	pthread_mutex_init(philosopher->eat_mutex, NULL);
+	pthread_mutex_init(philosopher->mutex, NULL);
 	pthread_mutex_lock(philosopher->eat_mutex);
 }
 

@@ -32,7 +32,10 @@ void	set_state(t_philosopher *philosopher, t_philosopher_state state)
 {
 	char			*format;
 
-	if (philosopher->state == state)
+	if (!philosopher
+		|| philosopher->state == state
+		|| philosopher->state == DEAD
+		|| is_somebody_dead(philosopher))
 		return ;
 	philosopher->state = state;
 	if (state == EATING)

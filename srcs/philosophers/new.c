@@ -26,9 +26,9 @@ static t_philosopher	*create_philosopher(t_app *app, int index)
 	philosopher->limit = 0;
 	philosopher->state = THINKING;
 	philosopher->eat_mutex = malloc(sizeof (pthread_mutex_t));
-	if (!philosopher->eat_mutex)
+	philosopher->mutex = malloc(sizeof (pthread_mutex_t));
+	if (!philosopher->eat_mutex || !philosopher->mutex)
 		return (NULL);
-	pthread_mutex_init(philosopher->eat_mutex, NULL);
 	return (philosopher);
 }
 
@@ -67,14 +67,12 @@ void	start(t_app *app)
 		init(app->philosophers[i]);
 		result = pthread_create(&(app->philosophers[i])->thread,
 								NULL, &live, app->philosophers[i]);
-		if (!validate_thread(result))
-			break ;
-		if (pthread_detach(app->philosophers[i]->thread) != 0) {
+		if (!validate_thread(result)) {
 			clear_philosophers(app);
 			return ;
 		}
-		if (i % 2 == 1)
-			usleep(10);
+		pthread_detach(app->philosophers[i]->thread);
+		usleep(100);
 		i++;
 	}
 }

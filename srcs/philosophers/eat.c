@@ -1,23 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   messages.h                                         :+:      :+:    :+:   */
+/*   eat.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rblondia <rblondia@student.42-lyon.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/13 18:13:16 by rblondia          #+#    #+#             */
-/*   Updated: 2022/01/19 15:35:34 by rblondia         ###   ########.fr       */
+/*   Created: 2021/12/13 18:49:10 by rblondia          #+#    #+#             */
+/*   Updated: 2022/01/19 16:12:50 by rblondia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MESSAGES_H
-# define MESSAGES_H
+#include "../../includes/philo.h"
 
-# define FORK_MSG "%lld %d has taken a fork\n"
-# define EATING_MSG "%lld %d is eating\n"
-# define SLEEPING_MSG "%lld %d is sleeping\n"
-# define THINKING_MSG "%lld %d is thinking\n"
-# define DIED_MSG "%lld %d died\n"
-# define MAX_EAT_MSG "All philosophers ate enough for today\n"
-
-#endif
+void eat(t_philosopher *philosopher) {
+	pthread_mutex_lock(philosopher->mutex);
+	philosopher->limit = get_time() + philosopher->settings.time_to_die;
+	usleep(get_waiting_time(philosopher, EATING));
+	pthread_mutex_unlock(philosopher->eat_mutex);
+	pthread_mutex_unlock(philosopher->mutex);
+}

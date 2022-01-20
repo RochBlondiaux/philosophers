@@ -18,11 +18,13 @@ void take_forks(t_philosopher *philosopher)
 	pthread_mutex_lock(philosopher->app->forks[philosopher->left_fork]);
 	printf(FORK_MSG, get_time(), philosopher->index);
 	pthread_mutex_lock(philosopher->app->forks[philosopher->right_fork]);
+	set_state(philosopher, EATING);
 }
 
 void clear_forks(t_philosopher *philosopher)
 {
+	set_state(philosopher, SLEEPING);
 	pthread_mutex_unlock(philosopher->app->forks[philosopher->right_fork]);
 	pthread_mutex_unlock(philosopher->app->forks[philosopher->left_fork]);
-	set_state(philosopher, SLEEPING);
+	usleep(get_waiting_time(philosopher, SLEEPING));
 }

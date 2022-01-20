@@ -1,10 +1,10 @@
 <h1 align="center">
-	 Philosophers
+    philosophers
 </h1>
 
 <p align="center">
-	<b><i>Development repo for 42cursus' push swap project</i></b><br>
-	For further information about 42cursus and its projects, please refer to <a href="https://github.com/rochblondiaux/42cursus"><b>42cursus repo</b></a>.
+	<b><i>42 philosophers development repository.</i></b><br>
+	I never thought philosophy would be so deadly
 </p>
 
 <p align="center">
@@ -29,23 +29,69 @@
 
 ## 🗣️ About
 
-> _The aim of this project is to learn how to use threads and discover the mutex._
-
-For detailed information, refer to the [**subject of this project**](https://github.com/RochBlondiaux/philosophers/blob/main/en.subject.pdf).
-
-	🚀 TLDR: In this project, you will learn the basics of threading a process. You will
-    learn how to make threads. You will discover the mutex.
+> In this project, you will learn the basics of threading a process.You will see how to create threads and you will discover mutexes.
 
 ## 📑 Index
 
 `@root`
+* [**📁 includes:**](/includes/) A common folder.
+* [**📁 srcs:**](/srcs/) A common folder.
+	* [**📁 parsing:**](/srcs/parsing/) A common folder.
+	* [**📁 philosophers:**](/srcs/philosophers/) A common folder.
+	* [**📁 threads:**](/srcs/threads/) A common folder.
+	* [**📁 utils:**](/srcs/utils/) A common folder.
 
-* [**📁 includes:**](includes/) contains all prototypes and libraries includes.
-* [**📁 srcs:**](srcs/) contains all project sources files.
-    * [**📁 utils:**](srcs/utils/) contains all utilities files.
+
 
 `@/srcs/main.c`
-* `main` - Start the program.
+* `int main(int argc, char **argv)` - A rly cool functions.
+* `static int launch_eat_monitor_thread(t_app *app)` - A rly cool functions.
+* `void init(t_philosopher *philosopher)` - A rly cool functions.
+* `static void check(t_app *app, t_philosopher *philosopher)` - A rly cool functions.
+
+`@/srcs/utils/utils.c`
+* `int is_somebody_dead(t_philosopher *philosopher)` - A rly cool functions.
+* `void foreach(t_app *app, void (*f)(t_app *app, t_philosopher *philosopher)` - A rly cool functions.
+* `int should_be_dead(t_philosopher *philosopher)` - A rly cool functions.
+* `long long get_time(void)` - A rly cool functions.
+
+`@/srcs/utils/parsing_utils.c`
+* `int	ft_atoi(char *str)` - A rly cool functions.
+* `int	is_number(char *a)` - A rly cool functions.
+
+`@/srcs/threads/thread_validator.c`
+* `int	validate_thread(int code)` - A rly cool functions.
+
+`@/srcs/philosophers/state.c`
+* `int	is_state(t_philosopher *philosopher, t_philosopher_state state)` - A rly cool functions.
+* `void	set_state(t_philosopher *philosopher, t_philosopher_state state)` - A rly cool functions.
+
+`@/srcs/philosophers/new.c`
+* `void	create_philosophers(t_app *app)` - A rly cool functions.
+* `void	start(t_app *app)` - A rly cool functions.
+* `static void	create_forks(t_app *app)` - A rly cool functions.
+* `static t_philosopher	*create_philosopher(t_app *app, int index)` - A rly cool functions.
+
+`@/srcs/philosophers/live.c`
+* `void	*live(void *arg)` - A rly cool functions.
+* `static int launch_monitor_thread(t_philosopher *philosopher)` - A rly cool functions.
+* `static void *monitor(void *arg)` - A rly cool functions.
+* `void *eat_monitor(void *arg)` - A rly cool functions.
+
+`@/srcs/philosophers/fork.c`
+* `void clear_forks(t_philosopher *philosopher)` - A rly cool functions.
+* `void take_forks(t_philosopher *philosopher)` - A rly cool functions.
+
+`@/srcs/philosophers/eat.c`
+* `void eat(t_philosopher *philosopher)` - A rly cool functions.
+
+`@/srcs/philosophers/clear.c`
+* `void	clear_philosophers(t_app *app)` - A rly cool functions.
+
+`@/srcs/parsing/parse.c`
+* `void	parse_settings(t_settings *settings, int argc, char **argv)` - A rly cool functions.
+* `static void	set_setting(t_settings *settings, int key, int value)` - A rly cool functions.
+* `int	validate_settings(t_settings settings)` - A rly cool functions.
 
 ## 🛠️ Usage
 
@@ -55,8 +101,24 @@ The function is written in C language and thus needs the **`gcc` compiler** and 
 
 ### Instructions
 
-_Coming soon_
+#### 1. Installation
 
-## 📋 Testing
+In order to install the philosophers, you need to clone it:
 
-_Coming soon_
+```bash
+git clone https://github.com/RochBlondiaux/philosophers.git && cd philosophers
+```
+
+Then, compile it with:
+
+```bash
+make
+```
+
+#### 2. Usage
+
+It's really simple, you just have to execute this command:
+
+```bash
+./philo <count> <die> <eat> <sleep> [times_each_must_eat]
+```

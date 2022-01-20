@@ -64,6 +64,7 @@ typedef struct s_philosopher
 	pthread_t				thread;
 	pthread_t				monitor_thread;
 	pthread_mutex_t			*eat_mutex;
+	pthread_mutex_t			*mutex;
 }							t_philosopher;
 
 typedef struct s_app
@@ -88,6 +89,7 @@ void		clear_philosophers(t_app *app);
 int			is_state(t_philosopher *philosopher, t_philosopher_state state);
 void		set_state(t_philosopher *philosopher, t_philosopher_state state);
 void		*live(void *philosopher);
+void 		eat(t_philosopher *philosopher);
 
 /* Fork */
 void 		take_forks(t_philosopher *philosopher);
@@ -107,10 +109,10 @@ long long	get_time(void);
 useconds_t	get_waiting_time(t_philosopher *philosopher,
 				t_philosopher_state state);
 int 		should_be_dead(t_philosopher *philosopher);
-void		foreach(t_app *app, void (*f)(t_app *app, t_philosopher *philosopher));
 void		start(t_app *app);
 void 		init(t_philosopher *philosopher);
 int 		is_somebody_dead(t_philosopher *philosopher);
 void 		*eat_monitor(void *arg);
+void		foreach(t_app *app, void (*f)(t_app *app, t_philosopher *philosopher));
 
 #endif

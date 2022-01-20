@@ -30,7 +30,7 @@ void *eat_monitor(void *arg) {
 		}
 		current++;
 	}
-	// TODO : display a message
+	printf(MAX_EAT_MSG);
 	app->running = 0;
 	return ((void *) 0);
 }
@@ -40,13 +40,13 @@ static void *monitor(void *arg) {
 
 	philosopher = (t_philosopher *) arg;
 	while (1) {
+		pthread_mutex_lock(philosopher->mutex);
 		if (should_be_dead(philosopher)) {
 			set_state(philosopher, DEAD);
 			break ;
 		}
-		if (is_somebody_dead(philosopher))
-			break ;
-		usleep(50);
+		pthread_mutex_unlock(philosopher->mutex);
+		usleep(1000);
 	}
 	return ((void *) 0);
 }
@@ -72,12 +72,8 @@ void	*live(void *arg)
 	while (1)
 	{
 		take_forks(philosopher);
-		set_state(philosopher, EATING);
-		philosopher->limit = get_time() + philosopher->settings.time_to_die;
-		usleep(get_waiting_time(philosopher, EATING));
-		pthread_mutex_unlock(philosopher->eat_mutex);
+		eat(philosopher);
 		clear_forks(philosopher);
-		usleep(get_waiting_time(philosopher, SLEEPING));
 		set_state(philosopher, THINKING);
 	}
 	return ((void *) 0);
