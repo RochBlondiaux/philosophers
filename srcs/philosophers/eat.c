@@ -12,7 +12,8 @@
 
 #include "../../includes/philo.h"
 
-void eat(t_philosopher *philosopher) {
+void	eat(t_philosopher *philosopher)
+{
 	pthread_mutex_lock(philosopher->mutex);
 	philosopher->limit = get_time() + philosopher->settings.time_to_die;
 	usleep(get_waiting_time(philosopher, EATING));

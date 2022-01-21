@@ -12,6 +12,18 @@
 
 #include "../../includes/philo.h"
 
+static void	clear_forks(t_app *app)
+{
+	if (!app->forks)
+		return ;
+	while (app->forks[i])
+	{
+		pthread_mutex_destroy(app->forks[i]);
+		i++;
+	}
+	free(app->forks);
+}
+
 void	clear_philosophers(t_app *app)
 {
 	size_t	i;
@@ -30,14 +42,5 @@ void	clear_philosophers(t_app *app)
 		}
 		free(app->philosophers);
 	}
-	i = 0;
-	if (app->forks)
-	{
-		while (app->forks[i])
-		{
-			pthread_mutex_destroy(app->forks[i]);
-			i++;
-		}
-		free(app->forks);
-	}
+	clear_forks(app);
 }

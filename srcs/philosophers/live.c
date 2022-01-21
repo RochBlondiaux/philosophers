@@ -6,23 +6,25 @@
 /*   By: rblondia <rblondia@student.42-lyon.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 18:49:10 by rblondia          #+#    #+#             */
-/*   Updated: 2022/01/19 16:12:50 by rblondia         ###   ########.fr       */
+/*   Updated: 2022/01/21 21:11:00 by rblondia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/philo.h"
 
-void *eat_monitor(void *arg) {
-	t_app			*app;
-	int				current;
-	int 			total;
-	int				i;
+void	*eat_monitor(void *arg)
+{
+	t_app	*app;
+	int		current;
+	int		total;
+	int		i;
 
 	app = (t_app *) arg;
 	total = app->settings.must_eat_time;
 	current = 0;
-	while (current < total) {
-		i  = 0;
+	while (current < total)
+	{
+		i = 0;
 		while (app->philosophers[i])
 		{
 			pthread_mutex_lock(app->philosophers[i++]->eat_mutex);
@@ -35,13 +37,16 @@ void *eat_monitor(void *arg) {
 	return ((void *) 0);
 }
 
-static void *monitor(void *arg) {
+static void	*monitor(void *arg)
+{
 	t_philosopher	*philosopher;
 
 	philosopher = (t_philosopher *) arg;
-	while (1) {
+	while (1)
+	{
 		pthread_mutex_lock(philosopher->mutex);
-		if (should_be_dead(philosopher)) {
+		if (should_be_dead(philosopher))
+		{
 			set_state(philosopher, DEAD);
 			break ;
 		}
@@ -51,13 +56,15 @@ static void *monitor(void *arg) {
 	return ((void *) 0);
 }
 
-static int launch_monitor_thread(t_philosopher *philosopher) {
+static int	launch_monitor_thread(t_philosopher *philosopher)
+{
 	int			result;
 
-	result = pthread_create(&philosopher->monitor_thread, NULL, monitor, philosopher);
+	result = pthread_create(&philosopher->monitor_thread,
+			NULL, monitor, philosopher);
 	if (result == 0)
 		pthread_detach(philosopher->monitor_thread);
-	return result;
+	return (result);
 }
 
 void	*live(void *arg)

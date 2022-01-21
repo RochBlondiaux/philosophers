@@ -6,21 +6,21 @@
 /*   By: rblondia <rblondia@student.42-lyon.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 13:25:21 by rblondia          #+#    #+#             */
-/*   Updated: 2022/01/19 16:21:12 by rblondia         ###   ########.fr       */
+/*   Updated: 2022/01/21 21:14:43 by rblondia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-static void check(t_app *app, t_philosopher *philosopher)
+static void	check(t_app *app, t_philosopher *philosopher)
 {
 	if (is_state(philosopher, DEAD))
 		app->running = 0;
 }
 
-void init(t_philosopher *philosopher)
+void	init(t_philosopher *philosopher)
 {
-	int id;
+	int	id;
 
 	id = philosopher->index;
 	philosopher->limit = get_time() + (philosopher->settings.time_to_die);
@@ -31,7 +31,8 @@ void init(t_philosopher *philosopher)
 	pthread_mutex_lock(philosopher->eat_mutex);
 }
 
-static int launch_eat_monitor_thread(t_app *app) {
+static int	launch_eat_monitor_thread(t_app *app)
+{
 	pthread_t	tid;
 
 	if (app->settings.must_eat_time == -1)
@@ -42,9 +43,20 @@ static int launch_eat_monitor_thread(t_app *app) {
 	return (1);
 }
 
-int main(int argc, char **argv)
+static void	start(t_app *app)
 {
-	t_app app;
+	app.running = 1;
+	while (app.running)
+	{
+		foreach(app, &check);
+		usleep(20);
+	}
+	clear_philosophers(app);
+}
+
+int	main(int argc, char **argv)
+{
+	t_app	app;
 
 	app.running = 0;
 	parse_settings(&app.settings, argc, argv);
@@ -53,20 +65,17 @@ int main(int argc, char **argv)
 	create_philosophers(&app);
 	if (!app.philosophers)
 		return (EXIT_FAILURE);
-	if (!app.forks) {
+	if (!app.forks)
+	{
 		clear_philosophers(&app);
 		return (EXIT_FAILURE);
 	}
 	start(&app);
-	if (!launch_eat_monitor_thread(&app)) {
+	if (!launch_eat_monitor_thread(&app))
+	{
 		clear_philosophers(&app);
 		return (EXIT_FAILURE);
 	}
-	app.running = 1;
-	while (app.running) {
-		foreach(&app, &check);
-		usleep(20);
-	}
-	clear_philosophers(&app);
+	start(&app);
 	return (EXIT_SUCCESS);
 }

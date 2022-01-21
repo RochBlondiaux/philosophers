@@ -6,7 +6,7 @@
 /*   By: rblondia <rblondia@student.42-lyon.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 17:45:35 by rblondia          #+#    #+#             */
-/*   Updated: 2022/01/19 16:12:24 by rblondia         ###   ########.fr       */
+/*   Updated: 2022/01/21 21:09:13 by rblondia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,9 @@ void	start(t_app *app)
 	{
 		init(app->philosophers[i]);
 		result = pthread_create(&(app->philosophers[i])->thread,
-								NULL, &live, app->philosophers[i]);
-		if (!validate_thread(result)) {
+				NULL, &live, app->philosophers[i]);
+		if (!validate_thread(result))
+		{
 			clear_philosophers(app);
 			return ;
 		}

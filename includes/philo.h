@@ -6,7 +6,7 @@
 /*   By: rblondia <rblondia@student.42-lyon.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 13:23:44 by rblondia          #+#    #+#             */
-/*   Updated: 2022/01/19 16:03:13 by rblondia         ###   ########.fr       */
+/*   Updated: 2022/01/21 21:16:31 by rblondia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ typedef struct s_app
 	t_settings		settings;
 	pthread_mutex_t	**forks;
 	t_philosopher	**philosophers;
-	int 			running;
+	int				running;
 }					t_app;
 
 /**
@@ -89,11 +89,11 @@ void		clear_philosophers(t_app *app);
 int			is_state(t_philosopher *philosopher, t_philosopher_state state);
 void		set_state(t_philosopher *philosopher, t_philosopher_state state);
 void		*live(void *philosopher);
-void 		eat(t_philosopher *philosopher);
+void		eat(t_philosopher *philosopher);
 
 /* Fork */
-void 		take_forks(t_philosopher *philosopher);
-void 		clear_forks(t_philosopher *philosopher);
+void		take_forks(t_philosopher *philosopher);
+void		clear_forks(t_philosopher *philosopher);
 
 /**
  * Threads
@@ -108,11 +108,12 @@ int			ft_atoi(char *str);
 long long	get_time(void);
 useconds_t	get_waiting_time(t_philosopher *philosopher,
 				t_philosopher_state state);
-int 		should_be_dead(t_philosopher *philosopher);
+int			should_be_dead(t_philosopher *philosopher);
 void		start(t_app *app);
-void 		init(t_philosopher *philosopher);
-int 		is_somebody_dead(t_philosopher *philosopher);
-void 		*eat_monitor(void *arg);
-void		foreach(t_app *app, void (*f)(t_app *app, t_philosopher *philosopher));
+void		init(t_philosopher *philosopher);
+int			is_somebody_dead(t_philosopher *philosopher);
+void		*eat_monitor(void *arg);
+void		foreach(t_app *app, void (*f)(t_app *app,
+					t_philosopher *philosopher));
 
 #endif
