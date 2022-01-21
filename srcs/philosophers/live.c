@@ -6,7 +6,7 @@
 /*   By: rblondia <rblondia@student.42-lyon.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 18:49:10 by rblondia          #+#    #+#             */
-/*   Updated: 2022/01/21 21:11:00 by rblondia         ###   ########.fr       */
+/*   Updated: 2022/01/21 21:11:08 by rblondia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void	*monitor(void *arg)
 			break ;
 		}
 		pthread_mutex_unlock(philosopher->mutex);
-		usleep(1000);
+		usleep(500);
 	}
 	return ((void *) 0);
 }

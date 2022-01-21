@@ -6,7 +6,7 @@
 /*   By: rblondia <rblondia@student.42-lyon.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 13:25:21 by rblondia          #+#    #+#             */
-/*   Updated: 2022/01/21 21:14:43 by rblondia         ###   ########.fr       */
+/*   Updated: 2022/01/21 21:21:41 by rblondia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ static int	launch_eat_monitor_thread(t_app *app)
 	return (1);
 }
 
-static void	start(t_app *app)
+static void	start_app(t_app *app)
 {
-	app.running = 1;
-	while (app.running)
+	app->running = 1;
+	while (app->running)
 	{
 		foreach(app, &check);
 		usleep(20);
@@ -76,6 +76,6 @@ int	main(int argc, char **argv)
 		clear_philosophers(&app);
 		return (EXIT_FAILURE);
 	}
-	start(&app);
+	start_app(&app);
 	return (EXIT_SUCCESS);
 }

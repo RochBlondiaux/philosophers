@@ -6,14 +6,16 @@
 /*   By: rblondia <rblondia@student.42-lyon.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 17:54:01 by rblondia          #+#    #+#             */
-/*   Updated: 2022/01/19 15:35:34 by rblondia         ###   ########.fr       */
+/*   Updated: 2022/01/21 21:22:19 by rblondia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/philo.h"
 
-static void	clear_forks(t_app *app)
+static void	clear_forks_(t_app *app)
 {
+	size_t	i;
+
 	if (!app->forks)
 		return ;
 	while (app->forks[i])
@@ -42,5 +44,5 @@ void	clear_philosophers(t_app *app)
 		}
 		free(app->philosophers);
 	}
-	clear_forks(app);
+	clear_forks_(app);
 }
