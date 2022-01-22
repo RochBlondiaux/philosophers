@@ -17,6 +17,9 @@ SUCCESS = $(WHITE)[$(GREEN)✅$(WHITE)] $(GREEN)
 WARNING = $(WHITE)[$(YELLOW)⚠️$(WHITE)] $(YELLOW)
 ERROR = $(WHITE)[$(RED)❌$(WHITE)] $(RED)
 
+# Leaks cmd
+LEAKS_CMD = valgrind --leak-check=yes
+
 # Binary
 NAME=philo
 
@@ -80,4 +83,10 @@ fclean: clean
 
 re: fclean all
 
-.PHONY:			all clean fclean re
+leaks: $(NAME)
+	$(LEAKS_CMD) ./$(NAME) 10 400 100 100 5
+
+run: $(NAME)
+	@./$(NAME) 9 400 100 100 5
+
+.PHONY:			all clean fclean re leaks run

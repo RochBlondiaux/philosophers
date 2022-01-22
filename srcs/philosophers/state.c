@@ -6,7 +6,7 @@
 /*   By: rblondia <rblondia@student.42-lyon.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 17:45:19 by rblondia          #+#    #+#             */
-/*   Updated: 2022/01/19 15:35:34 by rblondia         ###   ########.fr       */
+/*   Updated: 2022/01/22 13:59:51 by rblondia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,7 @@ void	set_state(t_philosopher *philosopher, t_philosopher_state state)
 	char			*format;
 
 	if (!philosopher
-		|| philosopher->state == state
-		|| philosopher->state == DEAD
-		|| is_somebody_dead(philosopher))
+		|| philosopher->state == DEAD)
 		return ;
 	philosopher->state = state;
 	if (state == EATING)

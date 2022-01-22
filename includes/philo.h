@@ -6,7 +6,7 @@
 /*   By: rblondia <rblondia@student.42-lyon.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 13:23:44 by rblondia          #+#    #+#             */
-/*   Updated: 2022/01/21 21:16:31 by rblondia         ###   ########.fr       */
+/*   Updated: 2022/01/22 14:38:22 by rblondia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,16 +63,16 @@ typedef struct s_philosopher
 	int						left_fork;
 	pthread_t				thread;
 	pthread_t				monitor_thread;
-	pthread_mutex_t			*eat_mutex;
-	pthread_mutex_t			*mutex;
+	pthread_mutex_t			eat_mutex;
+	pthread_mutex_t			mutex;
 }							t_philosopher;
 
 typedef struct s_app
 {
 	t_settings		settings;
-	pthread_mutex_t	**forks;
+	pthread_mutex_t	*forks;
 	t_philosopher	**philosophers;
-	int				running;
+	pthread_mutex_t	somebody_dead;
 }					t_app;
 
 /**
@@ -111,9 +111,6 @@ useconds_t	get_waiting_time(t_philosopher *philosopher,
 int			should_be_dead(t_philosopher *philosopher);
 void		start(t_app *app);
 void		init(t_philosopher *philosopher);
-int			is_somebody_dead(t_philosopher *philosopher);
 void		*eat_monitor(void *arg);
-void		foreach(t_app *app, void (*f)(t_app *app,
-					t_philosopher *philosopher));
 
 #endif

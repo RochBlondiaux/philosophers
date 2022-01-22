@@ -18,6 +18,5 @@
 # define SLEEPING_MSG "%lld %d is sleeping\n"
 # define THINKING_MSG "%lld %d is thinking\n"
 # define DIED_MSG "%lld %d died\n"
-# define MAX_EAT_MSG "All philosophers ate enough for today\n"
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: rblondia <rblondia@student.42-lyon.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 11:22:40 by rblondia          #+#    #+#             */
-/*   Updated: 2022/01/21 21:08:16 by rblondia         ###   ########.fr       */
+/*   Updated: 2022/01/22 14:38:22 by rblondia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,32 +23,4 @@ long long	get_time(void)
 int	should_be_dead(t_philosopher *philosopher)
 {
 	return (!is_state(philosopher, EATING) && get_time() > philosopher->limit);
-}
-
-void	foreach(t_app *app, void (*f)(t_app *app, t_philosopher *philosopher))
-{
-	int	i;
-
-	i = 0;
-	while (app->philosophers[i])
-	{
-		f(app, app->philosophers[i]);
-		i++;
-	}
-}
-
-int	is_somebody_dead(t_philosopher *philosopher)
-{
-	int		i;
-	t_app	*app;
-
-	i = 0;
-	app = philosopher->app;
-	while (app->philosophers[i])
-	{
-		if (is_state(app->philosophers[i], DEAD))
-			return (1);
-		i++;
-	}
-	return (0);
 }

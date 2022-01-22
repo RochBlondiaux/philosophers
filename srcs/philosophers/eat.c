@@ -14,9 +14,9 @@
 
 void	eat(t_philosopher *philosopher)
 {
-	pthread_mutex_lock(philosopher->mutex);
+	pthread_mutex_lock(&philosopher->mutex);
 	philosopher->limit = get_time() + philosopher->settings.time_to_die;
 	usleep(get_waiting_time(philosopher, EATING));
-	pthread_mutex_unlock(philosopher->eat_mutex);
-	pthread_mutex_unlock(philosopher->mutex);
+	pthread_mutex_unlock(&philosopher->eat_mutex);
+	pthread_mutex_unlock(&philosopher->mutex);
 }

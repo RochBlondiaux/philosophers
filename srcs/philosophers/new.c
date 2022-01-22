@@ -6,7 +6,7 @@
 /*   By: rblondia <rblondia@student.42-lyon.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 17:45:35 by rblondia          #+#    #+#             */
-/*   Updated: 2022/01/21 21:09:13 by rblondia         ###   ########.fr       */
+/*   Updated: 2022/01/22 14:28:45 by rblondia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,6 @@ static t_philosopher	*create_philosopher(t_app *app, int index)
 	philosopher->app = app;
 	philosopher->limit = 0;
 	philosopher->state = THINKING;
-	philosopher->eat_mutex = malloc(sizeof (pthread_mutex_t));
-	philosopher->mutex = malloc(sizeof (pthread_mutex_t));
-	if (!philosopher->eat_mutex || !philosopher->mutex)
-		return (NULL);
 	return (philosopher);
 }
 
@@ -36,23 +32,13 @@ static void	create_forks(t_app *app)
 {
 	size_t			i;
 
-	app->forks = malloc(sizeof (pthread_mutex_t *)
-			* (app->settings.philosophers + 1));
+	app->forks = malloc(sizeof (pthread_mutex_t)
+			* (app->settings.philosophers));
 	if (!app->forks)
 		return ;
 	i = 0;
 	while (i < app->settings.philosophers)
-	{
-		app->forks[i] = malloc(sizeof (pthread_mutex_t));
-		if (!app->forks[i])
-		{
-			clear_philosophers(app);
-			return ;
-		}
-		pthread_mutex_init(app->forks[i], NULL);
-		i++;
-	}
-	app->forks[i] = NULL;
+		pthread_mutex_init(&app->forks[i++], NULL);
 }
 
 void	start(t_app *app)

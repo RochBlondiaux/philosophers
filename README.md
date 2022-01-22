@@ -50,8 +50,6 @@
 * `static void check(t_app *app, t_philosopher *philosopher)` - A rly cool functions.
 
 `@/srcs/utils/utils.c`
-* `int is_somebody_dead(t_philosopher *philosopher)` - A rly cool functions.
-* `void foreach(t_app *app, void (*f)(t_app *app, t_philosopher *philosopher)` - A rly cool functions.
 * `int should_be_dead(t_philosopher *philosopher)` - A rly cool functions.
 * `long long get_time(void)` - A rly cool functions.
 
