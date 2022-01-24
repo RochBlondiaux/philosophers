@@ -6,7 +6,7 @@
 /*   By: rblondia <rblondia@student.42-lyon.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 18:49:10 by rblondia          #+#    #+#             */
-/*   Updated: 2022/01/22 14:07:23 by rblondia         ###   ########.fr       */
+/*   Updated: 2022/01/24 14:21:33 by rblondia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	*eat_monitor(void *arg)
 	t_app	*app;
 	int		current;
 	int		total;
-	int		i;
+	size_t	i;
 
 	app = (t_app *) arg;
 	total = app->settings.must_eat_time;
@@ -25,14 +25,14 @@ void	*eat_monitor(void *arg)
 	while (current < total)
 	{
 		i = 0;
-		while (app->philosophers[i])
+		while (i < app->settings.philosophers)
 		{
-			pthread_mutex_lock(&app->philosophers[i++]->eat_mutex);
+			pthread_mutex_lock(&app->philosophers[i]->eat_mutex);
 			i++;
 		}
 		current++;
 	}
-	pthread_mutex_unlock(&(app->somebody_dead));
+	pthread_mutex_unlock(&app->somebody_dead);
 	return ((void *) 0);
 }
 
@@ -51,7 +51,7 @@ static void	*monitor(void *arg)
 	}
 	set_state(philosopher, DEAD);
 	pthread_mutex_unlock(&philosopher->mutex);
-	pthread_mutex_unlock(&(philosopher->app->somebody_dead));
+	pthread_mutex_unlock(&philosopher->app->somebody_dead);
 	return ((void *) 0);
 }
 
@@ -71,15 +71,16 @@ void	*live(void *arg)
 	int				result;
 
 	philosopher = (t_philosopher *) arg;
+	init(philosopher);
 	result = launch_monitor_thread(philosopher);
 	if (result != 0)
 		return ((void *) 1);
 	while (1)
 	{
+		set_state(philosopher, THINKING);
 		take_forks(philosopher);
 		eat(philosopher);
 		clear_forks(philosopher);
-		set_state(philosopher, THINKING);
 	}
 	return ((void *) 0);
 }

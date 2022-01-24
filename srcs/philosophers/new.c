@@ -6,7 +6,7 @@
 /*   By: rblondia <rblondia@student.42-lyon.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 17:45:35 by rblondia          #+#    #+#             */
-/*   Updated: 2022/01/22 14:28:45 by rblondia         ###   ########.fr       */
+/*   Updated: 2022/01/24 14:13:26 by rblondia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,9 @@ static t_philosopher	*create_philosopher(t_app *app, int index)
 	philosopher->settings = app->settings;
 	philosopher->app = app;
 	philosopher->limit = 0;
-	philosopher->state = THINKING;
+	pthread_mutex_init(&philosopher->eat_mutex, NULL);
+	pthread_mutex_init(&philosopher->mutex, NULL);
+	pthread_mutex_lock(&philosopher->eat_mutex);
 	return (philosopher);
 }
 
@@ -33,12 +35,15 @@ static void	create_forks(t_app *app)
 	size_t			i;
 
 	app->forks = malloc(sizeof (pthread_mutex_t)
-			* (app->settings.philosophers));
+			* (app->settings.philosophers + 1));
 	if (!app->forks)
 		return ;
 	i = 0;
 	while (i < app->settings.philosophers)
-		pthread_mutex_init(&app->forks[i++], NULL);
+	{
+		pthread_mutex_init(&app->forks[i], NULL);
+		i++;
+	}
 }
 
 void	start(t_app *app)
@@ -47,10 +52,8 @@ void	start(t_app *app)
 	int		result;
 
 	i = 0;
-	result = 0;
-	while (app->philosophers[i])
+	while (app->settings.philosophers > i)
 	{
-		init(app->philosophers[i]);
 		result = pthread_create(&(app->philosophers[i])->thread,
 				NULL, &live, app->philosophers[i]);
 		if (!validate_thread(result))
@@ -67,7 +70,6 @@ void	start(t_app *app)
 void	create_philosophers(t_app *app)
 {
 	size_t			i;
-	t_philosopher	*new;
 
 	create_forks(app);
 	app->philosophers = malloc(sizeof (t_philosopher *)
@@ -78,15 +80,14 @@ void	create_philosophers(t_app *app)
 		return ;
 	}
 	i = 0;
-	while (i < app->settings.philosophers)
+	while (app->settings.philosophers > i)
 	{
-		new = create_philosopher(app, i + 1);
-		if (!new)
+		app->philosophers[i] = create_philosopher(app, i + 1);
+		if (!app->philosophers[i])
 		{
 			clear_philosophers(app);
-			break ;
+			return ;
 		}
-		app->philosophers[i] = new;
 		i++;
 	}
 	app->philosophers[i] = NULL;
