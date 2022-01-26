@@ -6,7 +6,7 @@
 /*   By: rblondia <rblondia@student.42-lyon.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 13:23:44 by rblondia          #+#    #+#             */
-/*   Updated: 2022/01/24 11:08:13 by rblondia         ###   ########.fr       */
+/*   Updated: 2022/01/26 14:38:26 by rblondia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,7 @@ typedef struct s_philosopher
 	int						right_fork;
 	int						left_fork;
 	pthread_t				thread;
-	pthread_t				monitor_thread;
-	pthread_mutex_t			eat_mutex;
-	pthread_mutex_t			mutex;
+	int						meals;
 }							t_philosopher;
 
 typedef struct s_app
@@ -73,6 +71,7 @@ typedef struct s_app
 	pthread_mutex_t	*forks;
 	t_philosopher	**philosophers;
 	pthread_mutex_t	somebody_dead;
+	pthread_t		monitor;
 }					t_app;
 
 /**
@@ -88,8 +87,13 @@ void		create_philosophers(t_app *app);
 void		clear_philosophers(t_app *app);
 int			is_state(t_philosopher *philosopher, t_philosopher_state state);
 void		set_state(t_philosopher *philosopher, t_philosopher_state state);
-void		*live(void *philosopher);
 void		eat(t_philosopher *philosopher);
+
+/*
+ * Threads
+ */
+void		*live(void *philosopher);
+void		*monitor(void *arg);
 
 /* Fork */
 void		take_forks(t_philosopher *philosopher);
@@ -112,5 +116,8 @@ int			should_be_dead(t_philosopher *philosopher);
 void		start(t_app *app);
 void		init(t_philosopher *philosopher);
 void		*eat_monitor(void *arg);
+int			is_full(t_philosopher *philosopher);
+int			everyone_is_full(t_app *app);
+int			anyone_dead(t_app *app);
 
 #endif

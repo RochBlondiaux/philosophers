@@ -6,7 +6,7 @@
 /*   By: rblondia <rblondia@student.42-lyon.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 17:03:35 by rblondia          #+#    #+#             */
-/*   Updated: 2022/01/24 10:04:28 by rblondia         ###   ########.fr       */
+/*   Updated: 2022/01/26 13:36:15 by rblondia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	is_number(char *a)
 {
 	size_t	i;
 
-	if (!a)
+	if (!a || !a[0])
 		return (0);
 	i = 0;
 	while (a[i])
@@ -37,9 +37,8 @@ int	ft_atoi(char *str)
 	i = 0;
 	neg = 1;
 	num = 0;
-	while (str[i] == ' ' || str[i] == '\n' || str[i] == '\t'
-		|| str[i] == '\v' || str[i] == '\f' || str[i] == '\r')
-		i++;
+	if (!is_number(str))
+		return (-1);
 	if (str[i] == '-' || str[i] == '+')
 	{
 		if (str[i] == '-')

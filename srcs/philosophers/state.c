@@ -33,6 +33,7 @@ void	set_state(t_philosopher *philosopher, t_philosopher_state state)
 	char			*format;
 
 	if (!philosopher
+		|| philosopher->index <= 0
 		|| philosopher->state == DEAD)
 		return ;
 	philosopher->state = state;

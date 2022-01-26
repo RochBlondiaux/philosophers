@@ -23,8 +23,8 @@ void	take_forks(t_philosopher *philosopher)
 
 void	clear_forks(t_philosopher *philosopher)
 {
-	set_state(philosopher, SLEEPING);
 	pthread_mutex_unlock(&philosopher->app->forks[philosopher->right_fork]);
 	pthread_mutex_unlock(&philosopher->app->forks[philosopher->left_fork]);
+	set_state(philosopher, SLEEPING);
 	usleep(get_waiting_time(philosopher, SLEEPING));
 }

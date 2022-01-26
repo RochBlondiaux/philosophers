@@ -6,7 +6,7 @@
 /*   By: rblondia <rblondia@student.42-lyon.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 17:45:35 by rblondia          #+#    #+#             */
-/*   Updated: 2022/01/24 14:13:26 by rblondia         ###   ########.fr       */
+/*   Updated: 2022/01/26 15:17:59 by rblondia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,6 @@ static t_philosopher	*create_philosopher(t_app *app, int index)
 	philosopher->settings = app->settings;
 	philosopher->app = app;
 	philosopher->limit = 0;
-	pthread_mutex_init(&philosopher->eat_mutex, NULL);
-	pthread_mutex_init(&philosopher->mutex, NULL);
-	pthread_mutex_lock(&philosopher->eat_mutex);
 	return (philosopher);
 }
 
@@ -54,15 +51,16 @@ void	start(t_app *app)
 	i = 0;
 	while (app->settings.philosophers > i)
 	{
+		if (i % 2 == 1)
+			usleep(1000);
 		result = pthread_create(&(app->philosophers[i])->thread,
 				NULL, &live, app->philosophers[i]);
-		if (!validate_thread(result))
+		if (result != 0)
 		{
 			clear_philosophers(app);
 			return ;
 		}
 		pthread_detach(app->philosophers[i]->thread);
-		usleep(100);
 		i++;
 	}
 }

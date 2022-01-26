@@ -6,75 +6,62 @@
 /*   By: rblondia <rblondia@student.42-lyon.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 18:49:10 by rblondia          #+#    #+#             */
-/*   Updated: 2022/01/24 14:21:33 by rblondia         ###   ########.fr       */
+/*   Updated: 2022/01/26 15:16:57 by rblondia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/philo.h"
 
-void	*eat_monitor(void *arg)
+static void	join_threads(t_app *app)
 {
-	t_app	*app;
-	int		current;
-	int		total;
 	size_t	i;
 
-	app = (t_app *) arg;
-	total = app->settings.must_eat_time;
-	current = 0;
-	while (current < total)
-	{
-		i = 0;
-		while (i < app->settings.philosophers)
-		{
-			pthread_mutex_lock(&app->philosophers[i]->eat_mutex);
-			i++;
-		}
-		current++;
-	}
-	pthread_mutex_unlock(&app->somebody_dead);
-	return ((void *) 0);
+	i = -1;
+	while (app->philosophers[++i])
+		pthread_join(app->philosophers[i]->thread, NULL);
 }
 
-static void	*monitor(void *arg)
+static t_philosopher	*get_dead(t_app *app)
 {
+	size_t	i;
+
+	i = -1;
+	while (app->philosophers[++i])
+	{
+		if (should_be_dead(app->philosophers[i]))
+			return (app->philosophers[i]);
+	}
+	return (NULL);
+}
+
+void	*monitor(void *arg)
+{
+	t_app			*app;
 	t_philosopher	*philosopher;
+	size_t			running;
 
-	philosopher = (t_philosopher *) arg;
-	while (1)
+	app = (t_app *) arg;
+	running = 1;
+	while (running)
 	{
-		pthread_mutex_lock(&philosopher->mutex);
-		if (should_be_dead(philosopher))
-			break ;
-		pthread_mutex_unlock(&philosopher->mutex);
-		usleep(100);
+		if (anyone_dead(app) || everyone_is_full(app))
+			running = 0;
 	}
-	set_state(philosopher, DEAD);
-	pthread_mutex_unlock(&philosopher->mutex);
-	pthread_mutex_unlock(&philosopher->app->somebody_dead);
+	join_threads(app);
+	pthread_mutex_unlock(&app->somebody_dead);
+	usleep(1000);
+	philosopher = get_dead(app);
+	if (philosopher)
+		set_state(philosopher, DEAD);
 	return ((void *) 0);
-}
-
-static int	launch_monitor_thread(t_philosopher *philosopher)
-{
-	int			result;
-
-	result = pthread_create(&philosopher->monitor_thread,
-			NULL, monitor, philosopher);
-	pthread_detach(philosopher->monitor_thread);
-	return (result);
 }
 
 void	*live(void *arg)
 {
 	t_philosopher	*philosopher;
-	int				result;
 
 	philosopher = (t_philosopher *) arg;
 	init(philosopher);
-	result = launch_monitor_thread(philosopher);
-	if (result != 0)
-		return ((void *) 1);
 	while (1)
 	{
 		set_state(philosopher, THINKING);

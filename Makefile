@@ -31,7 +31,6 @@ INCDIR = includes
 # Name
 SRC_NAME =	main.c \
 			parsing/parse.c \
-			threads/thread_validator.c \
 			philosophers/new.c \
 			philosophers/clear.c \
 			philosophers/state.c \
